@@ -1,7 +1,7 @@
 " -----------------   Author: Ruchee
 " -----------------    Email: my@ruchee.com
 " -----------------  WebSite: http://www.ruchee.com
-" -----------------     Date: 2013-11-07 11:04
+" -----------------     Date: 2013-11-08 16:51
 " -----------------     For Windows, Cygwin and Linux
 " -----------------  https://github.com/ruchee/vim
 
@@ -192,6 +192,7 @@ au FileType haskell,ocaml,lisp,ruby,eruby,slim,coffee,jade,sh set tabstop=2
 
 " 根据后缀名指定文件类型
 au BufRead,BufNewFile *.h   setlocal ft=c
+au BufRead,BufNewFile *.di  setlocal ft=d
 au BufRead,BufNewFile *.sql setlocal ft=mysql
 au BufRead,BufNewFile *.txt setlocal ft=txt
 
@@ -358,7 +359,7 @@ let g:airline_theme = 'badwolf'                " 设置主题
 let g:syntastic_check_on_open = 1              " 默认开启
 let g:syntastic_mode_map      = {'mode': 'active',
             \'active_filetypes':  [],
-            \'passive_filetypes': ['html', 'css', 'xhtml', 'eruby', 'scss']
+            \'passive_filetypes': ['html', 'css', 'xhtml', 'python', 'eruby', 'scss']
             \}                                 " 指定不需要检查的语言 [主要是因为开启这些语言的语法检查会导致打开文件的速度奇慢]
 
 
@@ -471,6 +472,12 @@ func! Compile_Run_Code()
         else
             exec "!g++ -Wall -std=c++11 -o %:r %:t && ./%:r"
         endif
+    elseif &filetype == "d"
+        if g:isWIN
+            exec "!dmd -wi %:t && %:r.exe"
+        else
+            exec "!dmd -wi %:t && ./%:r"
+        endif
     elseif &filetype == "haskell"
         if g:isWIN
             exec "!ghc --make -o %:r %:t && %:r.exe"
@@ -487,6 +494,8 @@ func! Compile_Run_Code()
         exec "!clisp -i %:t"
     elseif &filetype == "php"
         exec "!php %:t"
+    elseif &filetype == "python"
+        exec "!python %:t"
     elseif &filetype == "ruby"
         exec "!ruby %:t"
     elseif &filetype == "coffee"
