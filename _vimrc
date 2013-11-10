@@ -1,7 +1,7 @@
 " -----------------   Author: Ruchee
 " -----------------    Email: my@ruchee.com
 " -----------------  WebSite: http://www.ruchee.com
-" -----------------     Date: 2013-11-10 13:02
+" -----------------     Date: 2013-11-10 20:01
 " -----------------     For Windows, Cygwin and Linux
 " -----------------  https://github.com/ruchee/vim
 
@@ -187,8 +187,8 @@ set shiftwidth=4
 set tabstop=4
 
 " 对部分语言设置单独的缩进
-au FileType lisp,sh set shiftwidth=2
-au FileType lisp,sh set tabstop=2
+au FileType ruby,eruby,sh set shiftwidth=2
+au FileType ruby,eruby,sh set tabstop=2
 
 " 根据后缀名指定文件类型
 au BufRead,BufNewFile *.h   setlocal ft=c
@@ -326,11 +326,11 @@ endif
 let g:snipMate                         = {}
 " 设置补全项之间的继承关系，比如 PHP补全继承HTML的补全
 let g:snipMate.scope_aliases           = {}
-let g:snipMate.scope_aliases['c']      = 'cpp'
 let g:snipMate.scope_aliases['php']    = 'php,html,codeigniter'
 let g:snipMate.scope_aliases['smarty'] = 'smarty,html'
 let g:snipMate.scope_aliases['blade']  = 'blade,html'
 let g:snipMate.scope_aliases['twig']   = 'twig,html'
+let g:snipMate.scope_aliases['eruby']  = 'eruby,html'
 let g:snipMate.scope_aliases['xhtml']  = 'html'
 let g:snipMate.scope_aliases['html']   = 'html,angular'
 
@@ -354,7 +354,7 @@ let g:airline_theme = 'badwolf'                " 设置主题
 let g:syntastic_check_on_open = 1              " 默认开启
 let g:syntastic_mode_map      = {'mode': 'active',
             \'active_filetypes':  [],
-            \'passive_filetypes': ['html', 'css', 'xhtml']
+            \'passive_filetypes': ['html', 'css', 'xhtml', 'eruby']
             \}                                 " 指定不需要检查的语言 [主要是因为开启这些语言的语法检查会导致打开文件的速度奇慢]
 
 
@@ -461,16 +461,10 @@ func! Compile_Run_Code()
         else
             exec "!gcc -Wall -std=c11 -o %:r %:t && ./%:r"
         endif
-    elseif &filetype == "cpp"
-        if g:isWIN
-            exec "!g++ -Wall -std=c++11 -o %:r %:t && %:r.exe"
-        else
-            exec "!g++ -Wall -std=c++11 -o %:r %:t && ./%:r"
-        endif
-    elseif &filetype == "lisp"
-        exec "!clisp -i %:t"
     elseif &filetype == "php"
         exec "!php %:t"
+    elseif &filetype == "ruby"
+        exec "!ruby %:t"
     elseif &filetype == "sh"
         exec "!bash %:t"
     endif
