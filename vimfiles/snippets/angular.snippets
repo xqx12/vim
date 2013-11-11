@@ -1,16 +1,46 @@
 # 基础标记
-snippet a_a     指示应用边界
+snippet a_a     指示接管区域
 	ng-app${0}
 snippet a_c     控制器 [绑定处理函数]
 	ng-controller="${0}"
 snippet a_m     模型 [相当于指定变量名]
 	ng-model="${0}"
+snippet a_b     数据绑定 [{{ .. }} 是其简写]
+	ng-bind="${0}"
+snippet a_s     标签显示
+	ng-show="${0}"
+snippet a_h     标签隐藏
+	ng-hide="${0}"
+snippet a_cl    类名
+	ng-class="${0}"
+snippet a_st    样式
+	ng-style="${0}"
 # 流程控制
 snippet a_rp    迭代 [相当于foreach]
 	ng-repeat="${0}"
 # 常用事件
-snippet a_cl    点击
+snippet a_cli   单击事件
 	ng-click="${0}"
+snippet a_dbl   双击事件
+	ng-dblclick="${0}"
+snippet a_cha   值发生改变
+	ng-change="${0}"
+snippet a_sub   表单提交
+	ng-submit="${0}"
+# 常用过滤器
+snippet a_cur   数值转货币格式
+	currency${0}
+# 内置变量
+snippet a_sco   作用域
+	$scope${0}
+snippet a_ind   迭代下标
+	$index${0}
+snippet a_fir   第一个下标
+	$first${0}
+snippet a_mid   中间的下标
+	$middle${0}
+snippet a_las   最后的下标
+	$last${0}
 # 其他
 snippet a_i     数据初始化 [相当于给变量赋初值]
 	ng-init="${0}"

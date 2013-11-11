@@ -141,21 +141,21 @@ snippet be      代码块
 	  ${0}
 	end
 snippet ra      抛出异常
-	raise${0}
+	raise ${0}
 snippet res     捕获异常
-	rescue${0}
+	rescue ${0}
 snippet ens     善后处理
 	ensure${0}
 snippet thr     发出跳转执行流程的“信号”
 	throw${0}
 snippet cat     捕获跳转“信号”，执行跳转
-	catch ${1} do
+	catch${1} do
 	  ${0}
 	end
 snippet msg     异常信息
 	message${0}
-snippet E       Exception
-	Exception ${0}
+snippet E       Exception类
+	Exception${0}
 # 迭代器
 snippet lo      loop
 	loop ${0}
@@ -307,13 +307,13 @@ snippet pr      私有
 	private${0}
 snippet re      返回
 	return ${0}
-snippet br      跳出当前循环体
+snippet br      跳出当前循环体 [可跟一个值，用作整个循环体的执行结果]
 	break${0}
 snippet ne      忽略本轮循环的剩余部分，继续下一轮循环 [相当于continue]
 	next${0}
 snippet rd      重新开始本轮循环
 	redo${0}
-snippet rt      重新开始执行当前代码块 [Ruby 1.9起不再支持迭代器]
+snippet rt      重新开始执行当前代码块 [Ruby 1.9起不再支持迭代器，仅用于异常处理]
 	retry${0}
 snippet yi      向代码块传递转移执行流程
 	yield${0}
@@ -423,6 +423,10 @@ snippet y       %x{ .. }
 	%${1}{${0}}
 snippet r       / .. /
 	/${0}/
+snippet ry      =~
+	=~ ${0}
+snippet rn      !~
+	!~ ${0}
 snippet {       #{ .. }
 	#{${0}
 snippet |       | .. |
