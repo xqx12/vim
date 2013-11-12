@@ -1,7 +1,7 @@
 " -----------------   Author: Ruchee
 " -----------------    Email: my@ruchee.com
 " -----------------  WebSite: http://www.ruchee.com
-" -----------------     Date: 2013-11-11 17:55
+" -----------------     Date: 2013-11-12 15:19
 " -----------------     For Windows, Cygwin and Linux
 " -----------------  https://github.com/ruchee/vim
 
@@ -52,6 +52,7 @@ endif
 " \rt                        --一键替换全部Tab为空格  [全模式可用]
 "
 " \ww                        --打开Vimwiki主页
+" \wa                        --一键打开Vimwiki首页并编译所有源文件
 " \nt                        --打开NERDTree文件树窗口
 " \tl                        --打开/关闭TagList/TxtBrowser窗口
 " \ff                        --打开ctrlp.vim文件搜索窗口
@@ -192,7 +193,6 @@ au FileType lua,ruby,eruby,sh set tabstop=2
 
 " 根据后缀名指定文件类型
 au BufRead,BufNewFile *.h    setlocal ft=c
-au BufRead,BufNewFile *.di   setlocal ft=d
 au BufRead,BufNewFile *.wlua setlocal ft=lua
 au BufRead,BufNewFile *.sql  setlocal ft=mysql
 au BufRead,BufNewFile *.tpl  setlocal ft=smarty
@@ -229,7 +229,8 @@ set laststatus=2             " 开启状态栏信息
 set cmdheight=2              " 命令行的高度，默认为1，这里设为2
 set writebackup              " 设置无备份文件
 set autoread                 " 当文件在外部被修改时自动更新该文件
-set nobackup
+set nobackup                 " 不生成备份文件
+set noswapfile               " 不生成交换文件
 set list                     " 显示特殊字符，其中Tab使用高亮竖线代替，尾部空白使用高亮点号代替
 set listchars=tab:\|\ ,trail:.
 set expandtab                " 将Tab自动转化成空格 [需要输入真正的Tab键时，使用 Ctrl+V + Tab]
@@ -329,7 +330,7 @@ endif
 let g:snipMate                         = {}
 " 设置补全项之间的继承关系，比如 PHP补全继承HTML的补全
 let g:snipMate.scope_aliases           = {}
-let g:snipMate.scope_aliases['c']      = 'c,gtk'
+let g:snipMate.scope_aliases['c']      = 'cpp,gtk'
 let g:snipMate.scope_aliases['php']    = 'php,html,codeigniter'
 let g:snipMate.scope_aliases['smarty'] = 'smarty,html'
 let g:snipMate.scope_aliases['blade']  = 'blade,html'
@@ -450,6 +451,12 @@ nmap <leader>th <ESC>:set nonumber<CR>:set norelativenumber<CR><ESC>:TOhtml<CR><
 vmap <leader>th <ESC>:set nonumber<CR>:set norelativenumber<CR><ESC>:TOhtml<CR><ESC>:w %:r.html<CR><ESC>:q<CR>:set number<CR>:set relativenumber<CR>
 
 
+" \wa                 一键打开Vimwiki首页并编译所有源文件
+imap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>
+nmap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>
+vmap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>
+
+
 " \ev                 编辑当前所使用的Vim配置文件
 nmap <leader>ev <ESC>:e $MYVIMRC<CR>
 
@@ -465,11 +472,11 @@ func! Compile_Run_Code()
         else
             exec "!gcc -Wall -std=c11 -o %:r %:t && ./%:r"
         endif
-    elseif &filetype == "d"
+    elseif &filetype == "cpp"
         if g:isWIN
-            exec "!dmd -wi %:t && %:r.exe"
+            exec "!g++ -Wall -std=c++11 -o %:r %:t && %:r.exe"
         else
-            exec "!dmd -wi %:t && ./%:r"
+            exec "!g++ -Wall -std=c++11 -o %:r %:t && ./%:r"
         endif
     elseif &filetype == "lua"
         exec "!lua %:t"
@@ -477,6 +484,8 @@ func! Compile_Run_Code()
         exec "!php %:t"
     elseif &filetype == "ruby"
         exec "!ruby %:t"
+    elseif &filetype == "julia"
+        exec "!julia %:t"
     elseif &filetype == "sh"
         exec "!bash %:t"
     elseif &filetype == "make"

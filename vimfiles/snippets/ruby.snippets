@@ -145,7 +145,8 @@ snippet ra      抛出异常
 snippet res     捕获异常
 	rescue ${0}
 snippet ens     善后处理
-	ensure${0}
+	ensure
+	  ${0}
 snippet thr     发出跳转执行流程的“信号”
 	throw${0}
 snippet cat     捕获跳转“信号”，执行跳转
@@ -386,6 +387,8 @@ snippet _f      当前文件名 [__dir__ + '/' + __FILE__ 就是完整的路径�
 	__FILE__${0}
 snippet _en     当前文件编码
 	__ENCODING__${0}
+snippet _v      Ruby版本号
+	RUBY_VERSION${0}
 # 常用模块
 snippet Enb     迭代器
 	Enumerable${0}
@@ -418,9 +421,9 @@ snippet s       self
 snippet c       class
 	class${0}
 snippet x       %x[ .. ]
-	%${1}[${0}]
+	%${1}[ ${0} ]
 snippet y       %x{ .. }
-	%${1}{${0}}
+	%${1}{ ${0} }
 snippet r       / .. /
 	/${0}/
 snippet ry      =~
