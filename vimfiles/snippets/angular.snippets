@@ -15,6 +15,10 @@ snippet n_cl    类名
 	ng-class="${0}"
 snippet n_st    样式
 	ng-style="${0}"
+snippet n_sr    图片地址
+	ng-src="${0}"
+snippet n_hr    链接地址
+	ng-href="${0}"
 # 流程控制
 snippet n_rp    迭代 [相当于foreach]
 	ng-repeat="${0}"
@@ -41,6 +45,8 @@ snippet n_mid   中间的下标
 	$middle${0}
 snippet n_las   最后的下标
 	$last${0}
+snippet n_wat   监控变化
+	#watch('${1}', ${0})
 # 其他
 snippet n_i     数据初始化 [相当于给变量赋初值]
 	ng-init="${0}"

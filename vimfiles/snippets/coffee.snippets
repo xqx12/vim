@@ -118,8 +118,11 @@ snippet p       输出
 snippet {       #{ .. }
 	#{${0}
 ################
-snippet .       jQuery选择器
+snippet qq      jQuery选择器
 	$(${0})
-snippet >       jQuery选择器 [带引号]
+snippet q.      jQuery选择器 [带引号]
 	$('${1}')${0}
+snippet nn      AngularJS控制器
+	${1:f_name} = ($scope) ->
+	  ${0}
 ################
