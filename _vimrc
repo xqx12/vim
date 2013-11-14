@@ -1,7 +1,7 @@
 " -----------------   Author: Ruchee
 " -----------------    Email: my@ruchee.com
 " -----------------  WebSite: http://www.ruchee.com
-" -----------------     Date: 2013-11-14 00:01
+" -----------------     Date: 2013-11-14 11:56
 " -----------------     For Windows, Cygwin and Linux
 " -----------------  https://github.com/ruchee/vim
 
@@ -61,6 +61,7 @@ endif
 " \bn                        --自定义对齐
 " \th                        --一键生成与当前编辑文件同名的HTML文件 [不输出行号]
 " \ev                        --编辑当前所使用的Vim配置文件
+" \mt                        --在当前目录下递归生成tags文件
 "
 " \cc                        --添加注释               [NERD_commenter]
 " \cu                        --取消注释               [NERD_commenter]
@@ -188,11 +189,12 @@ set shiftwidth=4
 set tabstop=4
 
 " 对部分语言设置单独的缩进
-au FileType ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
-au FileType ruby,eruby,slim,coffee,jade,sh set tabstop=2
+au FileType lisp,ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
+au FileType lisp,ruby,eruby,slim,coffee,jade,sh set tabstop=2
 
 " 根据后缀名指定文件类型
 au BufRead,BufNewFile *.h    setlocal ft=c
+au BufRead,BufNewFile *.cl   setlocal ft=lisp
 au BufRead,BufNewFile *.sql  setlocal ft=mysql
 au BufRead,BufNewFile *.tpl  setlocal ft=smarty
 au BufRead,BufNewFile *.txt  setlocal ft=txt
@@ -461,6 +463,10 @@ vmap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>
 nmap <leader>ev <ESC>:e $MYVIMRC<CR>
 
 
+" \mt                 在当前目录下递归生成tags文件
+nmap <leader>mt <ESC>:!ctags -R --languages=
+
+
 " ======= 编译 && 运行 && 模板 ======= "
 
 " 编译并运行
@@ -472,6 +478,8 @@ func! Compile_Run_Code()
         else
             exec "!tcc %:t && ./%:r"
         endif
+    elseif &filetype == "lisp"
+        exec "!clisp -i %:t"
     elseif &filetype == "php"
         exec "!php %:t"
     elseif &filetype == "ruby"
