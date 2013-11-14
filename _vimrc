@@ -1,7 +1,7 @@
 " -----------------   Author: Ruchee
 " -----------------    Email: my@ruchee.com
 " -----------------  WebSite: http://www.ruchee.com
-" -----------------     Date: 2013-11-14 11:56
+" -----------------     Date: 2013-11-14 22:07
 " -----------------     For Windows, Cygwin and Linux
 " -----------------  https://github.com/ruchee/vim
 
@@ -193,11 +193,12 @@ au FileType lisp,ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
 au FileType lisp,ruby,eruby,slim,coffee,jade,sh set tabstop=2
 
 " 根据后缀名指定文件类型
-au BufRead,BufNewFile *.h    setlocal ft=c
-au BufRead,BufNewFile *.cl   setlocal ft=lisp
-au BufRead,BufNewFile *.sql  setlocal ft=mysql
-au BufRead,BufNewFile *.tpl  setlocal ft=smarty
-au BufRead,BufNewFile *.txt  setlocal ft=txt
+au BufRead,BufNewFile *.h   setlocal ft=c
+au BufRead,BufNewFile *.di  setlocal ft=d
+au BufRead,BufNewFile *.cl  setlocal ft=lisp
+au BufRead,BufNewFile *.sql setlocal ft=mysql
+au BufRead,BufNewFile *.tpl setlocal ft=smarty
+au BufRead,BufNewFile *.txt setlocal ft=txt
 
 
 " 设置着色模式和字体
@@ -477,6 +478,12 @@ func! Compile_Run_Code()
             exec "!tcc %:t && %:r.exe"
         else
             exec "!tcc %:t && ./%:r"
+        endif
+    elseif &filetype == "d"
+        if g:isWIN
+            exec "!dmd -wi -unittest %:t && %:r.exe"
+        else
+            exec "!dmd -wi -unittest %:t && ./%:r"
         endif
     elseif &filetype == "lisp"
         exec "!clisp -i %:t"
