@@ -1,7 +1,7 @@
 " -----------------   Author: Ruchee
 " -----------------    Email: my@ruchee.com
 " -----------------  WebSite: http://www.ruchee.com
-" -----------------     Date: 2013-11-14 22:07
+" -----------------     Date: 2013-11-17 18:20
 " -----------------     For Windows, Cygwin and Linux
 " -----------------  https://github.com/ruchee/vim
 
@@ -52,7 +52,7 @@ endif
 " \rt                        --一键替换全部Tab为空格  [全模式可用]
 "
 " \ww                        --打开Vimwiki主页
-" \wa                        --一键打开Vimwiki首页并编译所有源文件
+" \wa                        --一键编译所有Vimwiki源文件
 " \nt                        --打开NERDTree文件树窗口
 " \tl                        --打开/关闭TagList/TxtBrowser窗口
 " \ff                        --打开ctrlp.vim文件搜索窗口
@@ -189,13 +189,11 @@ set shiftwidth=4
 set tabstop=4
 
 " 对部分语言设置单独的缩进
-au FileType lisp,ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
-au FileType lisp,ruby,eruby,slim,coffee,jade,sh set tabstop=2
+au FileType ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
+au FileType ruby,eruby,slim,coffee,jade,sh set tabstop=2
 
 " 根据后缀名指定文件类型
 au BufRead,BufNewFile *.h   setlocal ft=c
-au BufRead,BufNewFile *.di  setlocal ft=d
-au BufRead,BufNewFile *.cl  setlocal ft=lisp
 au BufRead,BufNewFile *.sql setlocal ft=mysql
 au BufRead,BufNewFile *.tpl setlocal ft=smarty
 au BufRead,BufNewFile *.txt setlocal ft=txt
@@ -454,10 +452,10 @@ nmap <leader>th <ESC>:set nonumber<CR>:set norelativenumber<CR><ESC>:TOhtml<CR><
 vmap <leader>th <ESC>:set nonumber<CR>:set norelativenumber<CR><ESC>:TOhtml<CR><ESC>:w %:r.html<CR><ESC>:q<CR>:set number<CR>:set relativenumber<CR>
 
 
-" \wa                 一键打开Vimwiki首页并编译所有源文件
-imap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>
-nmap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>
-vmap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>
+" \wa                 一键编译所有Vimwiki源文件
+imap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>:qa<CR>
+nmap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>:qa<CR>
+vmap <leader>wa <ESC>\ww<ESC>:VimwikiAll2HTML<CR>:qa<CR>
 
 
 " \ev                 编辑当前所使用的Vim配置文件
@@ -479,14 +477,6 @@ func! Compile_Run_Code()
         else
             exec "!tcc %:t && ./%:r"
         endif
-    elseif &filetype == "d"
-        if g:isWIN
-            exec "!dmd -wi -unittest %:t && %:r.exe"
-        else
-            exec "!dmd -wi -unittest %:t && ./%:r"
-        endif
-    elseif &filetype == "lisp"
-        exec "!clisp -i %:t"
     elseif &filetype == "php"
         exec "!php %:t"
     elseif &filetype == "ruby"
@@ -497,12 +487,6 @@ func! Compile_Run_Code()
         exec "!node %:t"
     elseif &filetype == "sh"
         exec "!bash %:t"
-    elseif &filetype == "make"
-        if g:isWIN
-            exec "!make && app.exe"
-        else
-            exec "!make && ./app"
-        endif
     endif
 endfunc
 
