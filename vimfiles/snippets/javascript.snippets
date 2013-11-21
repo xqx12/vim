@@ -21,7 +21,7 @@ snippet f       常规函数
 	    ${0}
 	}
 snippet ff      单行匿名函数
-	function(${1}) {${0}}
+	function (${1}) {${0}}
 snippet wi      指定缺省对象
 	with (${1}) {
 	    ${0}
@@ -92,9 +92,9 @@ snippet ct      构造器
 snippet pt      原型
 	prototype${0}
 snippet tp      类型
-	typeof${0}
+	typeof ${0}
 snippet ins     实例
-	instanceof${0}
+	instanceof ${0}
 snippet udf     未定义
 	undefined${0}
 snippet pie     可列举性
@@ -130,6 +130,8 @@ snippet pai     转换为整数
 	parseInt()${0}
 snippet paf     转换为浮点数
 	parseFloat()${0}
+snippet hop     仅对象本身的属性
+	hasOwnProperty(${0})
 ################
 # DOM相关
 snippet gebi    getElementById
