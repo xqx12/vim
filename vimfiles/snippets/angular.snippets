@@ -1,0 +1,56 @@
+# 基础标记
+snippet n_a     指示接管区域
+	ng-app${0}
+snippet n_c     控制器 [绑定处理函数]
+	ng-controller="${0}"
+snippet n_m     模型 [相当于指定变量名]
+	ng-model="${0}"
+snippet n_b     数据绑定 [{{ .. }} 是其简写]
+	ng-bind="${0}"
+snippet n_s     标签显示
+	ng-show="${0}"
+snippet n_h     标签隐藏
+	ng-hide="${0}"
+snippet n_cl    类名
+	ng-class="${0}"
+snippet n_st    样式
+	ng-style="${0}"
+snippet n_sr    图片地址
+	ng-src="${0}"
+snippet n_hr    链接地址
+	ng-href="${0}"
+# 流程控制
+snippet n_rp    迭代 [相当于foreach]
+	ng-repeat="${0}"
+# 常用事件
+snippet n_cli   单击事件
+	ng-click="${0}"
+snippet n_dbl   双击事件
+	ng-dblclick="${0}"
+snippet n_cha   值发生改变
+	ng-change="${0}"
+snippet n_sub   表单提交
+	ng-submit="${0}"
+# 常用过滤器
+snippet n_cur   数值转货币格式
+	currency${0}
+# 内置变量
+snippet n_sco   作用域
+	$scope${0}
+snippet n_ind   迭代下标
+	$index${0}
+snippet n_fir   第一个下标
+	$first${0}
+snippet n_mid   中间的下标
+	$middle${0}
+snippet n_las   最后的下标
+	$last${0}
+snippet n_wat   监控变化
+	#watch('${1}', ${0})
+# 其他
+snippet n_i     数据初始化 [相当于给变量赋初值]
+	ng-init="${0}"
+snippet n_.     数据绑定 [相当于变量内插]
+	{{ ${0} }}
+snippet n_      ng-xxx
+	ng-${0}
