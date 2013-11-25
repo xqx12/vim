@@ -1,25 +1,9 @@
 " -----------------   Author: Ruchee
 " -----------------    Email: my@ruchee.com
 " -----------------  WebSite: http://www.ruchee.com
-" -----------------     Date: 2013-11-22 14:08
+" -----------------     Date: 2013-11-25 08:52
 " -----------------     For Windows, Cygwin and Linux
 " -----------------  https://github.com/ruchee/vim
-
-
-" 设置工作地点标志（在公司为1，在家为0）
-" 根据 D 盘根目录下有无 atCompany.txt 文件判断，Linux 下可类比创建
-if filereadable("D:/atCompany.txt")
-    let g:atCompany = 1
-else
-    let g:atCompany = 0
-endif
-
-
-" 设置头文件和tags路径，用于代码补全
-if g:atCompany
-else
-    " set path+=D:/Develop/MinGW/include
-endif
 
 
 
@@ -167,6 +151,13 @@ endif
 " :se ft=cpp                 --更改文件语法着色模式
 
 
+" 设置工作地点标志（根据指定路径的文件是否存在判断）
+if filereadable("D:/atCompany.txt")
+    let g:atCompany = 1
+else
+    let g:atCompany = 0
+endif
+
 " 判断操作系统类型
 if(has("win32") || has("win64"))
     let g:isWIN = 1
@@ -187,12 +178,11 @@ set shiftwidth=4
 set tabstop=4
 
 " 对部分语言设置单独的缩进
-au FileType sh set shiftwidth=2
-au FileType sh set tabstop=2
+au FileType ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
+au FileType ruby,eruby,slim,coffee,jade,sh set tabstop=2
 
 " 根据后缀名指定文件类型
 au BufRead,BufNewFile *.h   setlocal ft=c
-au BufRead,BufNewFile *.di  setlocal ft=d
 au BufRead,BufNewFile *.sql setlocal ft=mysql
 au BufRead,BufNewFile *.tpl setlocal ft=smarty
 au BufRead,BufNewFile *.txt setlocal ft=txt
@@ -333,7 +323,10 @@ let g:snipMate.scope_aliases['c']      = 'cpp'
 let g:snipMate.scope_aliases['php']    = 'php,html,codeigniter'
 let g:snipMate.scope_aliases['smarty'] = 'smarty,html'
 let g:snipMate.scope_aliases['blade']  = 'blade,html'
-let g:snipMate.scope_aliases['twig']   = 'twig,html'
+let g:snipMate.scope_aliases['eruby']  = 'eruby,html'
+let g:snipMate.scope_aliases['scss']   = 'scss,css'
+let g:snipMate.scope_aliases['jst']    = 'jst,html'
+let g:snipMate.scope_aliases['less']   = 'less,css'
 let g:snipMate.scope_aliases['xhtml']  = 'html'
 let g:snipMate.scope_aliases['html']   = 'html,angular'
 
@@ -357,7 +350,7 @@ let g:airline_theme = 'badwolf'                " 设置主题
 let g:syntastic_check_on_open = 1              " 默认开启
 let g:syntastic_mode_map      = {'mode': 'active',
             \'active_filetypes':  [],
-            \'passive_filetypes': ['html', 'css', 'xhtml']
+            \'passive_filetypes': ['html', 'css', 'xhtml', 'eruby', 'slim', 'scss', 'jade', 'less']
             \}                                 " 指定不需要检查的语言 [主要是因为开启这些语言的语法检查会导致打开文件的速度奇慢]
 
 
@@ -469,25 +462,17 @@ nmap <leader>mt <ESC>:!ctags -R --languages=
 func! Compile_Run_Code()
     exec "w"
     if &filetype == "c"
-        if g:isWIN
-            exec "!gcc -Wall -std=c11 -o %:r %:t && %:r.exe"
-        else
-            exec "!gcc -Wall -std=c11 -o %:r %:t && ./%:r"
-        endif
+        exec "!clang -Wall -o %:r %:t && ./%:r"
     elseif &filetype == "cpp"
-        if g:isWIN
-            exec "!g++ -Wall -std=c++11 -o %:r %:t && %:r.exe"
-        else
-            exec "!g++ -Wall -std=c++11 -o %:r %:t && ./%:r"
-        endif
-    elseif &filetype == "d"
-        if g:isWIN
-            exec "!dmd -wi -unittest %:t && %:r.exe"
-        else
-            exec "!dmd -wi -unittest %:t && %:r.exe"
-        endif
+        exec "!clang++ -Wall -o %:r %:t && ./%:r"
     elseif &filetype == "php"
         exec "!php %:t"
+    elseif &filetype == "ruby"
+        exec "!ruby %:t"
+    elseif &filetype == "coffee"
+        exec "!coffee %:t"
+    elseif &filetype == "javascript"
+        exec "!node %:t"
     elseif &filetype == "sh"
         exec "!bash %:t"
     endif
@@ -509,18 +494,12 @@ vmap <leader>T <ESC>:LoadTemplate<CR><ESC>:AuthorInfoDetect<CR><ESC>Gi
 let g:vimwiki_w32_dir_enc     = 'utf-8' " 设置编码
 let g:vimwiki_use_mouse       = 1       " 使用鼠标映射
 let g:vimwiki_valid_html_tags = 'a,img,b,i,s,u,sub,sup,br,hr,div,del,code,red,center,left,right,h1,h2,h3,h4,h5,h6,pre,script,style'
-                                        " 声明可以在wiki里面使用的HTML标签
+" 声明可以在wiki里面使用的HTML标签
 let blog = {}
 if g:isWIN
-    if g:atCompany
-        let blog.path          = 'D:/Ruchee/Files/mysite/wiki/'
-        let blog.path_html     = 'D:/Ruchee/Files/mysite/html/'
-        let blog.template_path = 'D:/Ruchee/Files/mysite/templates/'
-    else
-        let blog.path          = 'D:/Ruchee/mysite/wiki/'
-        let blog.path_html     = 'D:/Ruchee/mysite/html/'
-        let blog.template_path = 'D:/Ruchee/mysite/templates/'
-    endif
+    let blog.path          = 'D:/Ruchee/mysite/wiki/'
+    let blog.path_html     = 'D:/Ruchee/mysite/html/'
+    let blog.template_path = 'D:/Ruchee/mysite/templates/'
 else
     let blog.path          = '~/mysite/wiki/'
     let blog.path_html     = '~/mysite/html/'
