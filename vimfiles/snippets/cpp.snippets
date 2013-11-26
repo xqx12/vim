@@ -42,13 +42,11 @@ snippet cl      类定义
 	    ${0}
 	};
 snippet fc      构造函数
-	${1:f_name} (${2}) ${3}
-	{
+	${1:f_name} (${2}) ${3} {
 	    ${0}
 	}
 snippet fd      析构函数
-	~${1:f_name} ()
-	{
+	~${1:f_name} () {
 	    ${0}
 	}
 # 异常处理
@@ -68,22 +66,19 @@ snippet fin     善后处理
 	}
 # 函数
 snippet main    主函数
-	int main (int argc, char *argv[])
-	{
+	int main (int argc, char *argv[]) {
 	    ${0}
 
 	    return 0;
 	}
 snippet f       函数定义
-	${1:void} ${2:f_name} (${3})
-	{
+	${1:void} ${2:f_name} (${3}) {
 	    ${0}
 	}
 snippet ff      函数声明
 	${1:void} ${2:f_name} (${0});
 snippet cf      类方法定义
-	${1:void} ${2:f_name} (${3}) ${4}
-	{
+	${1:void} ${2:f_name} (${3}) ${4} {
 	    ${0}
 	}
 # 复合类型

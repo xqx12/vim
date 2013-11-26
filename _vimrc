@@ -1,10 +1,22 @@
 " -----------------   Author: Ruchee
 " -----------------    Email: my@ruchee.com
 " -----------------  WebSite: http://www.ruchee.com
-" -----------------     Date: 2013-11-25 08:52
+" -----------------     Date: 2013-11-26 14:07
 " -----------------     For Windows, Cygwin and Linux
 " -----------------  https://github.com/ruchee/vim
 
+
+" 设置工作地点标志（根据指定路径的文件是否存在判断）
+if filereadable("D:/atCompany.txt")
+    let g:atCompany = 1
+else
+    let g:atCompany = 0
+endif
+
+" 设置path和tags路径
+if g:atCompany
+else
+endif
 
 
 " ---------- Ctrl系按键 ----------
@@ -151,13 +163,6 @@
 " :se ft=cpp                 --更改文件语法着色模式
 
 
-" 设置工作地点标志（根据指定路径的文件是否存在判断）
-if filereadable("D:/atCompany.txt")
-    let g:atCompany = 1
-else
-    let g:atCompany = 0
-endif
-
 " 判断操作系统类型
 if(has("win32") || has("win64"))
     let g:isWIN = 1
@@ -178,8 +183,8 @@ set shiftwidth=4
 set tabstop=4
 
 " 对部分语言设置单独的缩进
-au FileType ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
-au FileType ruby,eruby,slim,coffee,jade,sh set tabstop=2
+au FileType lua,ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
+au FileType lua,ruby,eruby,slim,coffee,jade,sh set tabstop=2
 
 " 根据后缀名指定文件类型
 au BufRead,BufNewFile *.h   setlocal ft=c
@@ -189,12 +194,17 @@ au BufRead,BufNewFile *.txt setlocal ft=txt
 
 
 " 设置着色模式和字体
-if g:isGUI
-    colorscheme molokai
-    set guifont=Monaco:h11
+if g:isWIN
+    if g:isGUI
+        colorscheme molokai
+        set guifont=Monaco:h11
+    else
+        colorscheme tango2
+        set guifont=Monaco:h11
+    endif
 else
-    colorscheme tango2
-    set guifont=Monaco:h11
+    colorscheme molokai
+    set guifont=Monaco\ 11
 endif
 
 
@@ -316,19 +326,20 @@ if g:isWIN
 else
     let g:snippets_dir = '~/.vim/snippets/'
 endif
-let g:snipMate                         = {}
+let g:snipMate                             = {}
 " 设置补全项之间的继承关系，比如 PHP补全继承HTML的补全
-let g:snipMate.scope_aliases           = {}
-let g:snipMate.scope_aliases['c']      = 'cpp'
-let g:snipMate.scope_aliases['php']    = 'php,html,codeigniter'
-let g:snipMate.scope_aliases['smarty'] = 'smarty,html'
-let g:snipMate.scope_aliases['blade']  = 'blade,html'
-let g:snipMate.scope_aliases['eruby']  = 'eruby,html'
-let g:snipMate.scope_aliases['scss']   = 'scss,css'
-let g:snipMate.scope_aliases['jst']    = 'jst,html'
-let g:snipMate.scope_aliases['less']   = 'less,css'
-let g:snipMate.scope_aliases['xhtml']  = 'html'
-let g:snipMate.scope_aliases['html']   = 'html,angular'
+let g:snipMate.scope_aliases               = {}
+let g:snipMate.scope_aliases['c']          = 'cpp'
+let g:snipMate.scope_aliases['php']        = 'php,html,codeigniter'
+let g:snipMate.scope_aliases['smarty']     = 'smarty,html'
+let g:snipMate.scope_aliases['blade']      = 'blade,html'
+let g:snipMate.scope_aliases['htmldjango'] = 'htmldjango,html'
+let g:snipMate.scope_aliases['eruby']      = 'eruby,html'
+let g:snipMate.scope_aliases['scss']       = 'scss,css'
+let g:snipMate.scope_aliases['jst']        = 'jst,html'
+let g:snipMate.scope_aliases['less']       = 'less,css'
+let g:snipMate.scope_aliases['xhtml']      = 'html'
+let g:snipMate.scope_aliases['html']       = 'html,angular'
 
 
 " NERD_commenter      注释处理插件
@@ -351,7 +362,7 @@ let g:syntastic_check_on_open = 1              " 默认开启
 let g:syntastic_mode_map      = {'mode': 'active',
             \'active_filetypes':  [],
             \'passive_filetypes': ['html', 'css', 'xhtml', 'eruby', 'slim', 'scss', 'jade', 'less']
-            \}                                 " 指定不需要检查的语言 [主要是因为开启这些语言的语法检查会导致打开文件的速度奇慢]
+            \}                                 " 指定不需要检查的语言 [主要是因为开启这些语言的语法检查会妨碍到正常的工作]
 
 
 " ======= 自定义快捷键 ======= "
@@ -462,15 +473,27 @@ nmap <leader>mt <ESC>:!ctags -R --languages=
 func! Compile_Run_Code()
     exec "w"
     if &filetype == "c"
-        exec "!clang -Wall -o %:r %:t && ./%:r"
+        if g:isWIN
+            exec "!gcc -Wall -o %:r %:t && %:r"
+        else
+            exec "!clang -Wall -o %:r %:t && ./%:r"
+        endif
     elseif &filetype == "cpp"
-        exec "!clang++ -Wall -o %:r %:t && ./%:r"
+        if g:isWIN
+            exec "!g++ -Wall -o %:r %:t && %:r"
+        else
+            exec "!clang++ -Wall -o %:r %:t && ./%:r"
+        endif
+    elseif &filetype == "lua"
+        exec "!lua %:t"
     elseif &filetype == "php"
         exec "!php %:t"
+    elseif &filetype == "python"
+        exec "!python %:t"
     elseif &filetype == "ruby"
         exec "!ruby %:t"
     elseif &filetype == "coffee"
-        exec "!coffee %:t"
+        exec "!coffee -c %:t && coffee %:t"
     elseif &filetype == "javascript"
         exec "!node %:t"
     elseif &filetype == "sh"

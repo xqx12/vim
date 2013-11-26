@@ -69,8 +69,7 @@ snippet clee    继承异常类
 	    ${0}
 	}
 snippet f       函数定义
-	function ${1:f_name} (${2})
-	{
+	function ${1:f_name} (${2}) {
 	    ${0}
 	}
 snippet ff      匿名函数（不换行）
@@ -80,53 +79,43 @@ snippet ffu     带use子句的匿名函数
 snippet abf     用于声明抽象方法
 	abstract function ${1:f_name} (${2});${0}
 snippet fc      构造方法
-	function __construct (${1})
-	{
+	function __construct (${1}) {
 	    ${0}
 	}
 snippet fd      析构方法
-	function __destruct ()
-	{
+	function __destruct () {
 	    ${0}
 	}
 snippet fcl     克隆方法
-	function __clone ()
-	{
+	function __clone () {
 	    ${0}
 	}
 snippet fts     将类当作字符串打印
-	function __toString (${1})
-	{
+	function __toString (${1}) {
 	    ${0}
 	}
 snippet fal     自动加载
-	function __autoload (${1})
-	{
+	function __autoload (${1}) {
 	    ${0}
 	}
 snippet fge     __get()：访问未定义的属性时被调用
-	function __get (${1:property})
-	{
+	function __get (${1:property}) {
 	    ${0}
 	}
 snippet fse     __set()：给未定义的属性赋值时被调用
-	function __set (${1:property}, ${2:value})
-	{
+	function __set (${1:property}, ${2:value}) {
 	    ${0}
 	}
 snippet fca     __call()：调用未定义的方法时被调用
-	function __call (${1:$methodname}, ${2:args})
-	{
+	function __call (${1:$methodname}, ${2:args}) {
 	    ${0}
 	}
 snippet fis     __isset()：对未定义的属性调用isset()时被调用
-	function __isset (${1:property})
-	{
+	function __isset (${1:property}) {
 	    ${0}
 	}
 snippet fus     __unset()：对未定义的属性调用unset()时被调用
-	function __unset (${1:property})
-	{
+	function __unset (${1:property}) {
 	    ${0}
 	}
 # 流程控制
