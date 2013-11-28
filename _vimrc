@@ -1,7 +1,7 @@
 " -----------------   Author: Ruchee
 " -----------------    Email: my@ruchee.com
 " -----------------  WebSite: http://www.ruchee.com
-" -----------------     Date: 2013-11-26 14:07
+" -----------------     Date: 2013-11-28 11:41
 " -----------------     For Windows, Cygwin and Linux
 " -----------------  https://github.com/ruchee/vim
 
@@ -13,7 +13,8 @@ else
     let g:atCompany = 0
 endif
 
-" 设置path和tags路径
+
+" 设置 path 和 tags 路径
 if g:atCompany
 else
 endif
@@ -183,8 +184,8 @@ set shiftwidth=4
 set tabstop=4
 
 " 对部分语言设置单独的缩进
-au FileType lua,ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
-au FileType lua,ruby,eruby,slim,coffee,jade,sh set tabstop=2
+au FileType ruby,eruby,slim,coffee,jade,sh set shiftwidth=2
+au FileType ruby,eruby,slim,coffee,jade,sh set tabstop=2
 
 " 根据后缀名指定文件类型
 au BufRead,BufNewFile *.h   setlocal ft=c
@@ -203,8 +204,13 @@ if g:isWIN
         set guifont=Monaco:h11
     endif
 else
-    colorscheme molokai
-    set guifont=Monaco\ 11
+    if g:isGUI
+        colorscheme molokai
+        set guifont=Monaco\ 11
+    else
+        colorscheme tango2
+        set guifont=Monaco\ 11
+    endif
 endif
 
 
@@ -333,10 +339,11 @@ let g:snipMate.scope_aliases['c']          = 'cpp'
 let g:snipMate.scope_aliases['php']        = 'php,html,codeigniter'
 let g:snipMate.scope_aliases['smarty']     = 'smarty,html'
 let g:snipMate.scope_aliases['blade']      = 'blade,html'
+let g:snipMate.scope_aliases['twig']       = 'twig,html'
 let g:snipMate.scope_aliases['htmldjango'] = 'htmldjango,html'
 let g:snipMate.scope_aliases['eruby']      = 'eruby,html'
-let g:snipMate.scope_aliases['scss']       = 'scss,css'
 let g:snipMate.scope_aliases['jst']        = 'jst,html'
+let g:snipMate.scope_aliases['scss']       = 'scss,css'
 let g:snipMate.scope_aliases['less']       = 'less,css'
 let g:snipMate.scope_aliases['xhtml']      = 'html'
 let g:snipMate.scope_aliases['html']       = 'html,angular'
@@ -474,18 +481,16 @@ func! Compile_Run_Code()
     exec "w"
     if &filetype == "c"
         if g:isWIN
-            exec "!gcc -Wall -o %:r %:t && %:r"
+            exec "!gcc -Wall -o %:r %:t && %:r.exe"
         else
             exec "!clang -Wall -o %:r %:t && ./%:r"
         endif
     elseif &filetype == "cpp"
         if g:isWIN
-            exec "!g++ -Wall -o %:r %:t && %:r"
+            exec "!g++ -Wall -o %:r %:t && %:r.exe"
         else
             exec "!clang++ -Wall -o %:r %:t && ./%:r"
         endif
-    elseif &filetype == "lua"
-        exec "!lua %:t"
     elseif &filetype == "php"
         exec "!php %:t"
     elseif &filetype == "python"
