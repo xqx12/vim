@@ -13,6 +13,8 @@ else
     let g:atCompany = 0
 endif
 
+" set mapleader"
+let mapleader=","
 
 " 设置 path 和 tags 路径
 if g:atCompany
@@ -227,7 +229,7 @@ set hlsearch                 " 开启高亮显示结果
 set nowrapscan               " 搜索到文件两端时不重新搜索
 set nocompatible             " 关闭兼容模式
 set hidden                   " 允许在有未保存的修改时切换缓冲区
-set autochdir                " 设定文件浏览器目录为当前目录
+"set autochdir                " 设定文件浏览器目录为当前目录
 set foldmethod=syntax        " 选择代码折叠类型
 set foldlevel=100            " 禁止自动折叠
 set laststatus=2             " 开启状态栏信息
@@ -276,7 +278,7 @@ if g:isGUI
     set guioptions-=L        " 隐藏左侧滚动条
     set guioptions-=r        " 隐藏右侧滚动条
     set guioptions-=b        " 隐藏底部滚动条
-    "set showtabline=0       " 隐藏Tab栏
+    set showtabline=0       " 隐藏Tab栏
     set cursorline           " 突出显示当前行
 endif
 
@@ -315,8 +317,8 @@ let g:miniBufExplModSelTarget       = 1
 " :Tlist              调用TagList
 let Tlist_Show_One_File        = 1             " 只显示当前文件的tags
 let Tlist_Exit_OnlyWindow      = 1             " 如果Taglist窗口是最后一个窗口则退出Vim
-let Tlist_Use_Right_Window     = 1             " 在右侧窗口中显示
-let Tlist_File_Fold_Auto_Close = 1             " 自动折叠
+"let Tlist_Use_Right_Window     = 1             " 在右侧窗口中显示
+"let Tlist_File_Fold_Auto_Close = 1             " 自动折叠
 
 " :LoadTemplate       根据文件后缀自动加载模板
 if g:isWIN
@@ -538,3 +540,46 @@ let blog.template_ext      = '.html'
 let blog.auto_export       = 1
 
 let g:vimwiki_list = [blog]
+
+" =======call shell addbyxqx201401============= "
+nmap <leader>sh <ESC>:ConqueTermSplit bash<CR>
+nmap <leader>vsh <ESC>:ConqueTermVSplit bash<CR>
+nmap <leader>mk <ESC>:ConqueTermSplit make<CR>
+
+"正常模式下按wm调出资源管理器
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+let g:winManagerWindowLayout='FileExplorer|TagList'
+""let g:winManagerWindowLayout='NERDTreeToggle|TagList'
+nmap wm :WMToggle<cr>
+
+"窗口切换
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+"忽略大小写
+set ignorecase
+"不产生交换文件
+set noswapfile
+"显示缩进线
+set list 
+set lcs=tab:\|\ 
+"open .vimrc"
+map <leader>ee <ESC>: e ~/.vimrc<CR>
+map <leader>eb <ESC>: e ~/.bashrc<CR>
+"代码折叠
+set foldenable              " 开始折叠
+set foldmethod=syntax       " 设置语法折叠
+set foldcolumn=0            " 设置折叠区域的宽度
+set foldlevelstart=99       " 打开文件是默认不折叠代码
+nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+"use the clipboard intead of buffer"
+set clipboard=unnamedplus
+"split windows"
+map <leader>ps <ESC>:sp<CR>
+map <leader>vs <ESC>:vsp<CR>
+"quit "
+map <leader>qq <ESC>:q<CR>
+map <leader>xx <ESC>:wq<CR>
+
